@@ -1,0 +1,32 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "ajv": "^6.5.5",
+    "axios": "^0.18.0",
+    "faker": "^4.1.0",
+    "grpc-web": "^1.0.3",
+    "jest": "^23.6.0",
+    "lodash": "^4.17.11",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts-ts": "3.1.0",
+    "semantic-ui": "^2.4.2",
+    "semantic-ui-react": "^0.83.0"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.7",
+    "@types/react": "^16.7.6",
+    "@types/react-dom": "^16.0.9",
+    "typescript": "^3.1.6"
+  }
+}

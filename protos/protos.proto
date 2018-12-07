@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package protos;
+
+import "google/protobuf/timestamp.proto";
+
+message User {
+    string id = 1; // UUIDv4
+    Timestamps timestamps = 2;
+    string name = 3;
+}
+
+message ReviewLike {
+    string id = 1;
+    Review review = 2;
+    User user = 3;
+}
+
+message Review {
+    string id = 1; // UUIDv4
+    Timestamps timestamps = 2;
+    Product product = 3;
+    User user = 4;
+    string content = 5;
+    repeated ReviewLike likes = 6;
+}
+
+message ProductImage {
+    enum ProductImageType {
+        PRODUCT_IMAGE_TYPE_UNKNOWN = 0;
+    }
+
+    string id = 1;
+    ProductImageType type = 2;
+    string url = 3;
+}
+
+message ProductLink {
+    enum ProductLinkType {
+        PRODUCT_LINK_TYPE_UNKNOWN = 0;
+    }
+
+    string id = 1;
+    ProductLinkType type = 2;
+    string url = 3;
+}
+
+message Product {
+    string id = 1; // UUIDv4
+    Timestamps timestamps = 2;
+    string title = 3;
+    string description = 4;
+    repeated ProductImage images = 5;
+    repeated ProductLink links = 6;
+}
+
+message Timestamps {
+    google.protobuf.Timestamp created = 4;
+    google.protobuf.Timestamp updated = 5;
+}
+
+service UsersService {
+    rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
+    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {}
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {}
+    rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
+}
+
+message GetUserRequest {
+    User user = 1;
+}
+message GetUserResponse {
+    User user = 1;
+}
+
+message CreateUserRequest {
+    User user = 1;
+}
+message CreateUserResponse {}
+
+message UpdateUserRequest {
+    User user = 1;
+}
+message UpdateUserResponse {}
+
+message DeleteUserRequest {
+    User user = 1;
+}
+message DeleteUserResponse {}
+
+message ListUsersRequest {}
+message ListUsersResponse {
+    repeated User users = 1;
+}
+
+service ReviewsService {
+    rpc GetReview (GetReviewRequest) returns (GetReviewResponse) {}
+    rpc CreateReview (CreateReviewRequest) returns (CreateReviewResponse) {}
+    rpc UpdateReview (UpdateReviewRequest) returns (UpdateReviewResponse) {}
+    rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse) {}
+    rpc ListReviews (ListReviewsRequest) returns (ListReviewsResponse) {}
+    // todo decide if to add AddReviewLike endpoint
+    rpc DeleteReviewLike (DeleteReviewLikeRequest) returns (DeleteReviewLikeResponse) {}
+}
+
+message GetReviewRequest {
+    Review review = 1;
+}
+message GetReviewResponse {
+    Review review = 1;
+}
+
+message CreateReviewRequest {
+    Review review = 1;
+}
+message CreateReviewResponse {}
+
+message DeleteReviewRequest {
+    Review review = 1;
+}
+message DeleteReviewResponse {}
+
+message UpdateReviewRequest {
+    Review review = 1;
+}
+message UpdateReviewResponse {}
+
+message ListReviewsRequest {}
+message ListReviewsResponse {
+    repeated Review reviews = 1;
+}
+
+message DeleteReviewLikeRequest {
+    ReviewLike like = 1;
+}
+message DeleteReviewLikeResponse {}
+
+service ProductsService {
+    rpc GetProduct (GetProductRequest) returns (GetProductResponse) {}
+    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse) {}
+    rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse) {}
+    rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse) {}
+    rpc ListProducts (ListProductsRequest) returns (ListProductsResponse) {}
+}
+
+message GetProductRequest {
+    Product product = 1;
+}
+message GetProductResponse {
+    Product product = 1;
+}
+
+message CreateProductRequest {
+    Product product = 1;
+}
+message CreateProductResponse {}
+
+message UpdateProductRequest {
+    Product product = 1;
+}
+message UpdateProductResponse {}
+
+message DeleteProductRequest {
+    Product product = 1;
+}
+message DeleteProductResponse {}
+
+message ListProductsRequest {}
+message ListProductsResponse {
+    repeated Product products = 1;
+}
+
+service SearchService {
+    rpc Search (SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchRequest {
+    string query = 1;
+}
+message SearchResponse {
+    repeated User users = 1;
+    repeated Review reviews = 2;
+    repeated Product products = 3;
+}
