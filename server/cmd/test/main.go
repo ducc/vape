@@ -8,14 +8,14 @@ import (
 )
 
 func main() {
-	conn, err := grpc.Dial("127.0.0.1:8001", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("127.0.0.1:9211", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.WithError(err).Fatalf("could not connect")
 	}
 	defer conn.Close()
 
-	//c := protos.NewUsersServiceClient(conn)
-	//
+	c := protos.NewUsersServiceClient(conn)
+
 	//if _, err := c.CreateUser(context.Background(), &protos.CreateUserRequest{
 	//	User: &protos.User{
 	//		Name: "joe123",
@@ -60,13 +60,13 @@ func main() {
 	//	log.WithError(err).Fatalf("could not send request")
 	//}
 
-	//if res, err := c.ListUsers(context.Background(), &protos.ListUsersRequest{}); err != nil {
-	//	log.WithError(err).Fatalf("could not send request")
-	//} else {
-	//	for i, user := range res.Users {
-	//		log.Infof("%d: %v", i, user)
-	//	}
-	//}
+	if res, err := c.ListUsers(context.Background(), &protos.ListUsersRequest{}); err != nil {
+		log.WithError(err).Fatalf("could not send request")
+	} else {
+		for i, user := range res.Users {
+			log.Infof("%d: %v", i, user)
+		}
+	}
 
 	//c := protos.NewProductsServiceClient(conn)
 
@@ -133,7 +133,7 @@ func main() {
 	//	}
 	//}
 
-	c := protos.NewReviewsServiceClient(conn)
+	//c := protos.NewReviewsServiceClient(conn)
 
 	//if _, err := c.CreateReview(context.Background(), &protos.CreateReviewRequest{
 	//	Review: &protos.Review{
@@ -191,18 +191,18 @@ func main() {
 	//	log.WithError(err).Fatalf("could not send request")
 	//}
 
-	if res, err := c.GetReview(context.Background(), &protos.GetReviewRequest{
-		Review: &protos.Review{
-			Id: "e68351ad-095f-41bf-b441-60821eb887f2",
-			Product: &protos.Product{
-				Id: "46fe5ff7-d820-422d-97c0-d7d9717d5a4e",
-			},
-		},
-	}); err != nil {
-		log.WithError(err).Fatalf("could not send request")
-	} else {
-		log.Info(res.Review)
-	}
+	//if res, err := c.GetReview(context.Background(), &protos.GetReviewRequest{
+	//	Review: &protos.Review{
+	//		Id: "e68351ad-095f-41bf-b441-60821eb887f2",
+	//		Product: &protos.Product{
+	//			Id: "46fe5ff7-d820-422d-97c0-d7d9717d5a4e",
+	//		},
+	//	},
+	//}); err != nil {
+	//	log.WithError(err).Fatalf("could not send request")
+	//} else {
+	//	log.Info(res.Review)
+	//}
 
 	//if _, err := c.DeleteReviewLike(context.Background(), &protos.DeleteReviewLikeRequest{
 	//	Like: &protos.ReviewLike{
@@ -216,5 +216,15 @@ func main() {
 	//	},
 	//}); err != nil {
 	//	log.WithError(err).Fatalf("could not send request")
+	//}
+
+	//c := protos.NewSearchServiceClient(conn)
+	//
+	//if res, err := c.Search(context.Background(), &protos.SearchRequest{
+	//	Query: "m",
+	//}); err != nil {
+	//	log.WithError(err).Fatalf("could not send request")
+	//} else {
+	//	pretty.Println(res)
 	//}
 }

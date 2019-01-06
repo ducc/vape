@@ -1,5 +1,5 @@
 import * as React from "react";
-import {SearchRequest, SearchResponse} from "../protos/protos_pb";
+import {SearchRequest} from "../protos/protos_pb";
 import {SearchServiceClient} from "../protos/protos_grpc_web_pb";
 
 export class Search extends React.Component<any, any> {
@@ -15,10 +15,10 @@ export class Search extends React.Component<any, any> {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    async handleChange(event) {
         this.setState({
             value: event.target.value,
-            results: this.search(event.target.value),
+            results: await this.search(event.target.value),
         });
     }
 
@@ -49,19 +49,30 @@ export class Search extends React.Component<any, any> {
         );
     }
 
-    search(query: string): Promise<SearchResponse> {
-        return new Promise((resolve, reject) => {
+    search(query: string): Promise<Array<string>> {
+        if (query.length == 0) {
+            return Promise.resolve([]);
+        }
+
+        /*return new Promise((resolve, reject) => {*/
             const request = new SearchRequest();
             request.setQuery(query);
 
-            const service = new SearchServiceClient("http://localhost:8001", null, null);
+            const service = new SearchServiceClient("http://127.0.0.1:9001", null, null);
             service.search(request, {}, (err, response) => {
-                if (err.code != 200) {
-                    reject(err);
+                console.log("ye finished");
+                if (err) {
+                    console.log("err");
+                    console.log(err);
+                    // reject(err);
                 } else {
-                    resolve(response);
+                    console.log("res");
+                    console.log(response);
+                    // resolve(response);
                 }
-            })
-        });
+            });
+        /*});*/
+
+        return Promise.resolve(["hello", "no"]);
     }
 }

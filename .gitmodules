@@ -1,0 +1,6 @@
+[submodule "grpc-web"]
+	path = grpc-web
+	url = git@github.com:improbable-eng/grpc-web
+[submodule "envoy"]
+	path = envoy
+	url = https://github.com/envoyproxy/envoy

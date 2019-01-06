@@ -3,6 +3,7 @@ syntax = "proto3";
 package protos;
 
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 message User {
     string id = 1; // UUIDv4
@@ -60,11 +61,36 @@ message Timestamps {
 }
 
 service UsersService {
-    rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
-    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
-    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {}
-    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {}
-    rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
+    rpc GetUser (GetUserRequest) returns (GetUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/users/get"
+            body: "*"
+        };
+    }
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/users/create"
+            body: "*"
+        };
+    }
+    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/users/update"
+            body: "*"
+        };
+    }
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/users/delete"
+            body: "*"
+        };
+    }
+    rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {
+        option (google.api.http) = {
+            post: "/v1/users/list"
+            body: "*"
+        };
+    }
 }
 
 message GetUserRequest {
@@ -95,13 +121,43 @@ message ListUsersResponse {
 }
 
 service ReviewsService {
-    rpc GetReview (GetReviewRequest) returns (GetReviewResponse) {}
-    rpc CreateReview (CreateReviewRequest) returns (CreateReviewResponse) {}
-    rpc UpdateReview (UpdateReviewRequest) returns (UpdateReviewResponse) {}
-    rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse) {}
-    rpc ListReviews (ListReviewsRequest) returns (ListReviewsResponse) {}
+    rpc GetReview (GetReviewRequest) returns (GetReviewResponse) {
+        option (google.api.http) = {
+            post: "/v1/reviews/get"
+            body: "*"
+        };
+    }
+    rpc CreateReview (CreateReviewRequest) returns (CreateReviewResponse) {
+        option (google.api.http) = {
+            post: "/v1/reviews/create"
+            body: "*"
+        };
+    }
+    rpc UpdateReview (UpdateReviewRequest) returns (UpdateReviewResponse) {
+        option (google.api.http) = {
+            post: "/v1/reviews/update"
+            body: "*"
+        };
+    }
+    rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewResponse) {
+        option (google.api.http) = {
+            post: "/v1/reviews/delete"
+            body: "*"
+        };
+    }
+    rpc ListReviews (ListReviewsRequest) returns (ListReviewsResponse) {
+        option (google.api.http) = {
+            post: "/v1/reviews/list"
+            body: "*"
+        };
+    }
     // todo decide if to add AddReviewLike endpoint
-    rpc DeleteReviewLike (DeleteReviewLikeRequest) returns (DeleteReviewLikeResponse) {}
+    rpc DeleteReviewLike (DeleteReviewLikeRequest) returns (DeleteReviewLikeResponse) {
+        option (google.api.http) = {
+            post: "/v1/reviews/likes/delete"
+            body: "*"
+        };
+    }
 }
 
 message GetReviewRequest {
@@ -137,11 +193,36 @@ message DeleteReviewLikeRequest {
 message DeleteReviewLikeResponse {}
 
 service ProductsService {
-    rpc GetProduct (GetProductRequest) returns (GetProductResponse) {}
-    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse) {}
-    rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse) {}
-    rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse) {}
-    rpc ListProducts (ListProductsRequest) returns (ListProductsResponse) {}
+    rpc GetProduct (GetProductRequest) returns (GetProductResponse) {
+        option (google.api.http) = {
+            post: "/v1/products/get"
+            body: "*"
+        };
+    }
+    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse) {
+        option (google.api.http) = {
+            post: "/v1/products/create"
+            body: "*"
+        };
+    }
+    rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse) {
+        option (google.api.http) = {
+            post: "/v1/products/update"
+            body: "*"
+        };
+    }
+    rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse) {
+        option (google.api.http) = {
+            post: "/v1/products/delete"
+            body: "*"
+        };
+    }
+    rpc ListProducts (ListProductsRequest) returns (ListProductsResponse) {
+        option (google.api.http) = {
+            post: "/v1/products/list"
+            body: "*"
+        };
+    }
 }
 
 message GetProductRequest {
@@ -172,7 +253,12 @@ message ListProductsResponse {
 }
 
 service SearchService {
-    rpc Search (SearchRequest) returns (SearchResponse) {}
+    rpc Search (SearchRequest) returns (SearchResponse) {
+        option (google.api.http) = {
+            post: "/v1/search"
+            body: "*"
+        };
+    }
 }
 
 message SearchRequest {

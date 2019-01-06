@@ -39,10 +39,10 @@ func (s *Service) GetUser(ctx context.Context, req *protos.GetUserRequest) (*pro
 	)
 
 	if req.User.Id != "" {
-		rows, err := s.db.Query(`SELECT name, time_created, time_updated FROM users WHERE id = $1 LIMIT 1;`, req.User.Id)
+		rows, err := s.db.Query(`SELECT name, time_created, time_updated FROM users WHERE user_id = $1 LIMIT 1;`, req.User.Id)
 		if err != nil {
-			log.WithError(err).WithField("user", req.User).Error("error querying users by id")
-			return nil, fmt.Errorf("error getting user by id")
+			log.WithError(err).WithField("user", req.User).Error("error querying users by user_id")
+			return nil, fmt.Errorf("error getting user by user_id")
 		}
 
 		if !rows.Next() {
@@ -51,12 +51,12 @@ func (s *Service) GetUser(ctx context.Context, req *protos.GetUserRequest) (*pro
 
 		if err := rows.Scan(&name, &timeCreated, &timeUpdated); err != nil {
 			log.WithError(err).WithField("user", req.User).Error("error scanning rows")
-			return nil, fmt.Errorf("error getting user by id")
+			return nil, fmt.Errorf("error getting user by user_id")
 		}
 
 		id = req.User.Id
 	} else if req.User.Name != "" {
-		rows, err := s.db.Query(`SELECT id, time_created, time_updated FROM users WHERE name = $1 LIMIT 1;`, req.User.Name)
+		rows, err := s.db.Query(`SELECT user_id, time_created, time_updated FROM users WHERE name = $1 LIMIT 1;`, req.User.Name)
 		if err != nil {
 			log.WithError(err).WithField("user", req.User).Error("error querying users by name")
 			return nil, fmt.Errorf("error getting user by name")
@@ -132,7 +132,7 @@ func (s *Service) DeleteUser(ctx context.Context, req *protos.DeleteUserRequest)
 		return nil, fmt.Errorf("id is required")
 	}
 
-	_, err := s.db.Exec("DELETE FROM users WHERE id = $1;", req.User.Id)
+	_, err := s.db.Exec("DELETE FROM users WHERE user_id = $1;", req.User.Id)
 	if err != nil {
 		log.WithError(err).WithField("user", req.User).Error("error deleting user")
 		return nil, fmt.Errorf("error deleting user")
@@ -144,9 +144,9 @@ func (s *Service) DeleteUser(ctx context.Context, req *protos.DeleteUserRequest)
 func (s *Service) ListUsers(ctx context.Context, req *protos.ListUsersRequest) (*protos.ListUsersResponse, error) {
 	// todo paging?
 
-	rows, err := s.db.Query(`SELECT id, time_created, time_updated, name FROM users;`)
+	rows, err := s.db.Query(`SELECT user_id, time_created, time_updated, name FROM users;`)
 	if err != nil {
-		return nil, fmt.Errorf("error listing users")
+		return nil, fmt.Errorf("error listing users: %s", err)
 	}
 
 	res := &protos.ListUsersResponse{

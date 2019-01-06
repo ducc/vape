@@ -8,6 +8,7 @@ import (
 	"github.com/ducc/vape/protos_go"
 	"github.com/ducc/vape/server/database"
 	"strings"
+	log "github.com/sirupsen/logrus"
 )
 
 type Service struct {
@@ -32,6 +33,8 @@ func (s *Service) Close() error {
 var products = []string{"smok gx350 mod", "smok prince tank", "smok h-priv 2 kit", "aspire cleito pro tank", "aspire speeder 2 mod", "tec evo kit", "smok g-priv mod", "aspire proteus shisha"}
 
 func (s *Service) Search(ctx context.Context, req *protos.SearchRequest) (*protos.SearchResponse, error) {
+	log.Debug("recv search")
+
 	if len(req.Query) == 0 {
 		return nil, errors.New("query must not be empty")
 	}
@@ -46,6 +49,8 @@ func (s *Service) Search(ctx context.Context, req *protos.SearchRequest) (*proto
 			})
 		}
 	}
+
+	log.Debug("repl search")
 
 	return &protos.SearchResponse{Products: results}, nil
 }
