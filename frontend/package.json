@@ -9,7 +9,7 @@
     "google-protobuf": "^3.6.1",
     "grpc-web": "^1.0.3",
     "jest": "^23.6.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
